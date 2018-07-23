@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: #999;
 }
 
 .App-logo {
@@ -25,4 +26,11 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+.main-list {
+  max-width: 50vw;
+  max-height: calc( 100vh - 190px );
+  margin: auto;
+  overflow: auto;
 }
