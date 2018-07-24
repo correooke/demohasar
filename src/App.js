@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import MyCardItem from './component/MyCardItem';
+import ItemList from './component/ItemList';
 import logo from './logo.svg';
 import './App.css';
+import AddNewItem from './component/AddNewItem';
+import { AppBar, Toolbar } from '@material-ui/core';
+
 
 const items = [
   { title: 'Mateo', details: 'Que grande'},
@@ -13,21 +16,26 @@ const items = [
 ];
 
 class App extends Component {
+
+  state = {
+    items: items
+  };
+
+  onAddItem = ({title, details}) => {
+    console.log(`Adding item ${title} - ${details}`);
+    this.setState({ items: [ ...items, {title, details}] });
+  }
+
   render() {
     return (
+      
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">App Demo</h1>
-        </header>
-        <div className="main-list">
-          {
-            items.map(({ title, details }) => (
-              <MyCardItem key={title} title={title} details={details}></MyCardItem>
-            ))
-          }
-        </div>
-        
+        <AppBar position="static" >
+          <Toolbar>Aplicación de aprendizaje</Toolbar>
+        </AppBar>  
+        <AddNewItem onAddItem={this.onAddItem} ></AddNewItem>        
+        <ItemList items={this.state.items}></ItemList>
+
       </div>
     );
   }
