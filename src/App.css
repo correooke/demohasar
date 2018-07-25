@@ -42,3 +42,24 @@
   margin-bottom: 60px;
   background-color: white;
 }
+
+.personalAvatarStyle {
+  height: 100%;
+  width: 100%;
+}
+
+.myCardItemBlock {
+  display: inline-block;
+}
+
+.myCardItemBlock:first-child {
+  height: 100%;
+  width: 150px;
+  float: left;
+}
+
+.myCardItemBlock:last-child {
+  float: right;
+}
+
+
