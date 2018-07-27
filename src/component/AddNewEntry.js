@@ -4,16 +4,41 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import EntryDetails from './EntryDetails';
+
+const initialState = {
+    title: '', 
+    details: {
+        source: '',
+        name: '', 
+        last: '',
+        email: '',            
+    },
+    editing: false,
+};
 
 class AddNewEntry extends Component {
 
-    state = {
-        title: '', 
-        details: '',
-    };
+    state = initialState;
+
+    onChangeItem = itemValue => {
+        debugger;
+        this.setState({ details: { ...this.state.details, ...itemValue }});
+        console.log(`onChangeItem: ${JSON.stringify(itemValue)}`);
+    }
+
+    // cwrp
+    componentWillReceiveProps(nextProps) {
+        console.log(JSON.stringify(nextProps.selectedItem));
+        if (nextProps.selectedItem) {
+            this.setState({ ...nextProps.selectedItem, editing: true} );
+        } else {
+            this.setState(initialState);
+        }
+    }
 
     render() {
-        const { onAddItem } = this.props;
+        const { onAddItem, onEditItem } = this.props;
 
         return (
             <div className='newEntryStyle'>
@@ -23,12 +48,15 @@ class AddNewEntry extends Component {
                     value={this.state.title}
                     onChange={event => this.setState( { title: event.target.value } ) }
                 ></TextField>    
-                <TextField 
-                    label='Detalle' 
-                    value={this.state.details}
-                    onChange={event => this.setState( { details: event.target.value } ) }
-                ></TextField>  
-                <Button onClick={() => onAddItem(this.state) }>Agregar</Button>
+                <EntryDetails 
+                    details={this.state.details} 
+                    onChange={this.onChangeItem}
+                >
+                </EntryDetails>
+                <Button onClick={() => { 
+                    this.state.editing ? onEditItem(this.state) : onAddItem(this.state)} }>
+                    { this.state.editing ? "Editar" : "Agregar"}
+                </Button>
             </div>
         );
     }
@@ -36,6 +64,8 @@ class AddNewEntry extends Component {
 
 AddNewEntry.propTypes = {
     onAddItem: PropTypes.func.isRequired,
+    onEditItem: PropTypes.func.isRequired,
+    selectedItem: PropTypes.object,
 };
 
 
