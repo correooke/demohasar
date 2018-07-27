@@ -23,6 +23,7 @@ class App extends Component {
   
   state = {
     items,
+    selectedItem: null, 
   };
 
   onAddItemClick = ({ title, details }) => {
@@ -33,10 +34,11 @@ class App extends Component {
 
   onEditItem = code => {
     console.log("Editando Item " + code);
-
+    this.setState({ selectedItem: items.find( item => item.code === code )});
   }
 
   onDelItem = code => {
+    this.setState({ items: items.filter( item => item.code !== code)})
     console.log("Eliminando Item " + code);
   }
 
@@ -51,7 +53,10 @@ class App extends Component {
         <AppBar position="static" >
           <Toolbar>Aplicacion de Estudio</Toolbar>
         </AppBar>
-        <AddNewEntry onAddItem={this.onAddItemClick}></AddNewEntry>
+        <AddNewEntry
+          data={this.state.selectedItem}
+          onAddItem={this.onAddItemClick}>
+        </AddNewEntry>
         <MyCardList 
           items={this.state.items}
           onClickEdit={this.onEditItem}
