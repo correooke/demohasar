@@ -3,6 +3,7 @@ import './App.css';
 import MyCardList from './component/MyCardList';
 import AddNewEntry from './component/AddNewEntry';
 import { AppBar, Toolbar } from '@material-ui/core';
+import uuid from 'uuid/v1';
 
 const items = [
   { code: 0, title: 'Mateo', 
@@ -35,15 +36,20 @@ class App extends Component {
 
   onAddItemClick = ({ title, details }) => {
     console.log(`Titulo: ${title} Detalle: ${details}`);
-    const code = this.state.items.length;
+    const code = uuid();
     this.setState({ items: [ ...this.state.items, { code, title, details }] })
   }
 
-  onEditItemClick = ({ title, details }) => {
+  onEditItemClick = ({ code, title, details }) => {
     console.log(`Finalizó la edición Titulo: ${title} Detalle: ${details}`);
 
     //this.setState({ items: [ ...this.state.items, { code, title, details }] })
-    this.setState({ selectedItem: null });
+    const items = this.state.items.filter( item => item.code !== code);
+
+    this.setState({ 
+      items: [ ...items, { code, title, details }],
+      selectedItem: null,
+    });
   }  
 
   onEditItem = code => {
@@ -55,7 +61,7 @@ class App extends Component {
     console.log("Eliminando Item " + code);
     const items = this.state.items.filter( item => item.code !== code);
 
-    this.setState({ items });
+    this.setState({ items, selectedItem: null });
   }
 
   onShowItem = code => {
