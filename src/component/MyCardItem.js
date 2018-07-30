@@ -11,7 +11,7 @@ const MyCardItem = ({ code, title, details, onClickEdit, onClickDel, onClickShow
     return (<Card raised={true} elevation={5}>
         <div className="myCardItem">
             <div className="myCardItemBlock">
-                <PersonalAvatar source={source} ></PersonalAvatar>
+                <PersonalAvatar code={code} source={source} ></PersonalAvatar>
             </div>
             <div className="myCardItemBlock">
                 <CardHeader title={title}></CardHeader>

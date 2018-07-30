@@ -3,6 +3,9 @@ import './App.css';
 import MyCardList from './component/MyCardList';
 import AddNewEntry from './component/AddNewEntry';
 import { AppBar, Toolbar } from '@material-ui/core';
+import { BrowserRouter as Router,
+      Route, Switch } from 'react-router-dom';
+
 import uuid from 'uuid/v1';
 
 const items = [
@@ -71,23 +74,39 @@ class App extends Component {
   render() {
     
     return (
-      <div className="App">
-        <AppBar position="static" >
-          <Toolbar>Aplicacion de Estudio</Toolbar>
-        </AppBar>
-        <AddNewEntry 
-          onAddItem={this.onAddItemClick}
-          onEditItem={this.onEditItemClick}
-          selectedItem={this.state.selectedItem}
-        >
-        </AddNewEntry>
-        <MyCardList 
-          items={this.state.items}
-          onClickEdit={this.onEditItem}
-          onClickDel={this.onDelItem}
-          onClickShow={this.onShowItem}></MyCardList>
-        
-      </div>
+      <Router>
+        <div className="App">
+          <AppBar position="static" >
+            <Toolbar>Aplicacion de Estudio</Toolbar>
+          </AppBar>
+          <AddNewEntry 
+            onAddItem={this.onAddItemClick}
+            onEditItem={this.onEditItemClick}
+            selectedItem={this.state.selectedItem}
+          >
+          </AddNewEntry>
+          <MyCardList 
+            items={this.state.items}
+            onClickEdit={this.onEditItem}
+            onClickDel={this.onDelItem}
+            onClickShow={this.onShowItem}></MyCardList>
+            
+          <Route exact path="/customers/zaraza/image" children={({ match }) => (
+
+              match && <h1>Es zaraza!!</h1>
+            )} />              
+          <Switch>
+ 
+            <Route exact path="/customers/:code/image" render={({ match }) => (
+              <h1>La imagen pertenece a {match.params.code}</h1>
+            )} />
+            <Route render={() => (
+              <h1>No seleccionaste ninguno</h1>
+            )} />       
+          </Switch>
+          
+        </div>
+      </Router>
     );
   }
 }
