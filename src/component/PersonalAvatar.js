@@ -14,7 +14,7 @@ const PersonalAvatar = ({ code, source }) => {
 
 PersonalAvatar.propTypes = {
     source: PropTypes.string.isRequired,
-    code: PropTypes.number.isRequired,
+    code: PropTypes.string.isRequired,
 };
 
 export default PersonalAvatar;

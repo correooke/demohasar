@@ -2,33 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import MyCardList from './component/MyCardList';
 import AddNewEntry from './component/AddNewEntry';
-import { AppBar, Toolbar } from '@material-ui/core';
-import { BrowserRouter as Router,
-      Route, Switch } from 'react-router-dom';
+import { AppBar, Toolbar, CircularProgress } from '@material-ui/core';
+import { Route, Switch, withRouter } from 'react-router-dom';
 
 import uuid from 'uuid/v1';
+import ShowUser from './component/ShowUser';
 
-const items = [
-  { code: 0, title: 'Mateo', 
-    details: {
-      source: 'https://randomuser.me/api/portraits/thumb/men/65.jpg',
-      name: "Juan", 
-      last: "Barrio",
-      email: "jbarrio@hasar.com",
-  }},
-  { code: 1, title: 'Brian', details: {
-    source: 'https://randomuser.me/api/portraits/thumb/men/66.jpg',
-    name: "Brayatan", 
-    last: "Haberkuk",
-    email: "brian@hasar.com",
-  }},
-  { code: 2, title: 'Juan', details: {
-    source: 'https://randomuser.me/api/portraits/thumb/men/67.jpg',
-    name: "Juan", 
-    last: "Barrio Nuevo",
-    email: "brian@hasar.com",
-  }},
-];
+const items = null;
 
 class App extends Component {
   
@@ -68,13 +48,40 @@ class App extends Component {
   }
 
   onShowItem = code => {
+    this.props.history.push(`/customers/${code}/details`);
     console.log("Ver más " + code);
   }
+  
+  // cdm
+  componentDidMount() {
+    const url = "https://randomuser.me/api/?results=3";
 
+    fetch(url).then(data => data.json()).then(infoUsers => {
+        const { results } = infoUsers;
+        const items = results.map( user => (
+        {
+          code: user.login.uuid,
+          title: `${user.name.title} ${user.name.first} ${user.name.last}`,
+          details: {
+            source: user.picture.medium,
+            name: user.name.first,
+            last: user.name.last,
+            email: user.email,
+          },
+          extra: {
+            ...user
+          }          
+        }
+      ));
+      this.setState( { items });
+      console.log("component Did Mount");
+    });
+  }
+  
   render() {
-    
+   
     return (
-      <Router>
+      
         <div className="App">
           <AppBar position="static" >
             <Toolbar>Aplicacion de Estudio</Toolbar>
@@ -85,18 +92,21 @@ class App extends Component {
             selectedItem={this.state.selectedItem}
           >
           </AddNewEntry>
-          <MyCardList 
-            items={this.state.items}
-            onClickEdit={this.onEditItem}
-            onClickDel={this.onDelItem}
-            onClickShow={this.onShowItem}></MyCardList>
-            
-          <Route exact path="/customers/zaraza/image" children={({ match }) => (
+          {
+            this.state.items ? (          
+            <MyCardList 
+              items={this.state.items}
+              onClickEdit={this.onEditItem}
+              onClickDel={this.onDelItem}
+              onClickShow={this.onShowItem}></MyCardList>) : 
+            (<CircularProgress size={50} />)
 
-              match && <h1>Es zaraza!!</h1>
-            )} />              
+          }
+
           <Switch>
- 
+            <Route path="/customers/:code/details" render={({ match }) => (
+                <ShowUser />
+              )} />
             <Route exact path="/customers/:code/image" render={({ match }) => (
               <h1>La imagen pertenece a {match.params.code}</h1>
             )} />
@@ -106,9 +116,9 @@ class App extends Component {
           </Switch>
           
         </div>
-      </Router>
+
     );
   }
 }
 
-export default App;
+export default withRouter(App);
