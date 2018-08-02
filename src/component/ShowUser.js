@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import transform from '../services/transform';
+import { URL_BASE } from './../constants/api';
 
 class ShowUser extends Component {
     
     state = null;
 
     componentDidMount() {
-        const url = `https://randomuser.me/api/?login.uuid=${this.props.match.params.code}`;
+        
+        const url = `${URL_BASE}?login.uuid=${this.props.match.params.code}`;
 
         fetch(url).then(data => data.json()).then(
             ({ results }) => {

@@ -9,6 +9,7 @@ import uuid from 'uuid/v1';
 import ShowUser from './component/ShowUser';
 import ShowImage from './component/ShowImage';
 import transform from './services/transform';
+import { URL_BASE } from './constants/api';
 
 const items = null;
 
@@ -56,7 +57,7 @@ class App extends Component {
   
   // cdm
   componentDidMount() {
-    const url = "https://randomuser.me/api/?results=3";
+    const url = URL_BASE;
 
     fetch(url).then(data => data.json()).then(infoUsers => {
         const { results } = infoUsers;
