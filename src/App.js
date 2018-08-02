@@ -7,6 +7,8 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import uuid from 'uuid/v1';
 import ShowUser from './component/ShowUser';
+import ShowImage from './component/ShowImage';
+import transform from './services/transform';
 
 const items = null;
 
@@ -58,23 +60,11 @@ class App extends Component {
 
     fetch(url).then(data => data.json()).then(infoUsers => {
         const { results } = infoUsers;
-        const items = results.map( user => (
-        {
-          code: user.login.uuid,
-          title: `${user.name.title} ${user.name.first} ${user.name.last}`,
-          details: {
-            source: user.picture.medium,
-            name: user.name.first,
-            last: user.name.last,
-            email: user.email,
-          },
-          extra: {
-            ...user
-          }          
-        }
-      ));
-      this.setState( { items });
-      console.log("component Did Mount");
+        
+        const items = transform(results);
+
+        this.setState( { items });
+        console.log("component Did Mount");
     });
   }
   
@@ -86,32 +76,37 @@ class App extends Component {
           <AppBar position="static" >
             <Toolbar>Aplicacion de Estudio</Toolbar>
           </AppBar>
-          <AddNewEntry 
-            onAddItem={this.onAddItemClick}
-            onEditItem={this.onEditItemClick}
-            selectedItem={this.state.selectedItem}
-          >
-          </AddNewEntry>
-          {
-            this.state.items ? (          
-            <MyCardList 
-              items={this.state.items}
-              onClickEdit={this.onEditItem}
-              onClickDel={this.onDelItem}
-              onClickShow={this.onShowItem}></MyCardList>) : 
-            (<CircularProgress size={50} />)
 
-          }
 
           <Switch>
             <Route path="/customers/:code/details" render={({ match }) => (
                 <ShowUser />
               )} />
-            <Route exact path="/customers/:code/image" render={({ match }) => (
-              <h1>La imagen pertenece a {match.params.code}</h1>
-            )} />
+
             <Route render={() => (
-              <h1>No seleccionaste ninguno</h1>
+              <div>
+                <AddNewEntry 
+                  onAddItem={this.onAddItemClick}
+                  onEditItem={this.onEditItemClick}
+                  selectedItem={this.state.selectedItem}
+                >
+                </AddNewEntry>
+                {
+                  this.state.items ? (          
+                  <MyCardList 
+                    items={this.state.items}
+                    onClickEdit={this.onEditItem}
+                    onClickDel={this.onDelItem}
+                    onClickShow={this.onShowItem}></MyCardList>) : 
+                  (<CircularProgress size={50} />)
+
+                } 
+                <Route exact path="/customers/:code/image" render={({ match }) => (
+                  <ShowImage 
+                    code={match.params.code} 
+                    user={this.state.items && this.state.items.find(user => user.code === match.params.code)} /> 
+                )} />                               
+              </div>
             )} />       
           </Switch>
           
