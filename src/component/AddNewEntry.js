@@ -31,7 +31,7 @@ class AddNewEntry extends Component {
         });
         console.log(`onChangeItem: ${JSON.stringify(itemValue)}`);
     }
-
+/*
     // cwrp
     componentWillReceiveProps(nextProps) {
         console.log(JSON.stringify(nextProps.selectedItem));
@@ -44,6 +44,19 @@ class AddNewEntry extends Component {
             this.setState(initialState);
         }
     }
+*/
+    static getDerivedStateFromProps(nextProps, prevState) {
+        //console.log(JSON.stringify(nextProps.selectedItem));
+        if (nextProps.selectedItem) {
+            return {
+                ...nextProps.selectedItem,
+                editing: true
+            };
+        } else {
+            return null;
+        }        
+    }
+    
 
     render() {
         const {onAddItem, onEditItem} = this.props;

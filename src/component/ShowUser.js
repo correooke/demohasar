@@ -6,22 +6,39 @@ import { URL_BASE } from './../constants/api';
 
 class ShowUser extends Component {
     
-    state = null;
+    state = {};
 
     componentDidMount() {
-        
-        const url = `${URL_BASE}?login.uuid=${this.props.match.params.code}`;
+        if (!this.props.user) {
+            const url = `${URL_BASE}?login.uuid=${this.props.match.params.code}`;
 
-        fetch(url).then(data => data.json()).then(
-            ({ results }) => {
-                const items = transform(results);
-                if (items) {
-                    this.setState(items[0]);
+            fetch(url).then(data => data.json()).then(
+                results => {
+                    const items = transform(results);
+                    if (items) {
+                        this.setState(items[0]);
+                    }
                 }
-            }
-        );
+            );
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.user && (nextProps.user.code !== prevState.code))
+            return nextProps.user;
+        
+        return null;
     }
     
+
+
+    
+    getAllExtra = ({ extra }) => {
+
+    }
+
+    
+
     render() {
         return (
             <div>
@@ -33,7 +50,7 @@ class ShowUser extends Component {
 }
 
 ShowUser.propTypes = {
-    code: PropTypes.string.isRequired,
+    user: PropTypes.object,
 };
 
 export default withRouter(ShowUser);
