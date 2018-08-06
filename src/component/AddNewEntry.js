@@ -53,7 +53,7 @@ class AddNewEntry extends Component {
                 editing: true
             };
         } else {
-            return null;
+            return initialState;
         }        
     }
     
