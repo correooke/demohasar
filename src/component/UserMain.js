@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { Route, withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import MyCardList from './MyCardList';
 import AddNewEntry from './AddNewEntry';
 import ShowImage from './ShowImage';
@@ -93,9 +92,5 @@ class UserMain extends Component {
         );
     }
 }
-
-UserMain.propTypes = {
-
-};
 
 export default withRouter(UserMain);
