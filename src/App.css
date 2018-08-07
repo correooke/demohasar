@@ -30,7 +30,7 @@
 
 .main-list {
   max-width: 50vw;
-  max-height: calc( 100vh - 200px );
+  max-height: calc( 100vh - 260px );
   margin: auto;
   overflow: auto;
 }
