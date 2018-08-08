@@ -25,7 +25,7 @@ class UserMain extends Component {
       items,
       itemsSearched: items,
       selectedItem: null, 
-      search: null,       
+      search: '',       
     };
 
     onAddItemClick = ({ title, details }) => {

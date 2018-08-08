@@ -47,13 +47,16 @@ class AddNewEntry extends Component {
 */
     static getDerivedStateFromProps(nextProps, prevState) {
         //console.log(JSON.stringify(nextProps.selectedItem));
-        if (nextProps.selectedItem && prevState && nextProps.selectedItem.title !== prevState.title) {
+        if (nextProps.selectedItem && nextProps.selectedItem.code !== prevState.code) {
             return {
                 ...nextProps.selectedItem,
                 editing: true
             };
         } else {
-            return null;
+            if (nextProps.selectedItem === null && prevState.editing)
+                return initialState;
+            else
+                return prevState;
         }        
     }
     
