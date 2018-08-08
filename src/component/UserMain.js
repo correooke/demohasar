@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, TextField } from '@material-ui/core';
 import { Route, withRouter } from 'react-router-dom';
+import styled from 'styled-components';
 import MyCardList from './MyCardList';
 import AddNewEntry from './AddNewEntry';
 import ShowImage from './ShowImage';
@@ -10,28 +11,45 @@ import { URL_BASE } from './../constants/api';
 
 const items = null;
 
+const SearchText = styled(TextField)`
+  width: 50vw;
+  background: white;
+`;
+
+const applySearch = (items, search) => 
+  items.filter(item => item.title.toUpperCase().includes(search.toUpperCase()));
+
 class UserMain extends Component {
 
     state = {
       items,
+      itemsSearched: items,
       selectedItem: null, 
+      search: null,       
     };
 
     onAddItemClick = ({ title, details }) => {
       console.log(`Titulo: ${title} Detalle: ${details}`);
       const code = uuid();
-      this.setState({ items: [ ...this.state.items, { code, title, details }] })
+      const items = [ ...this.state.items, { code, title, details }];
+      this.setState({ 
+        items,
+        itemsSearched: items,
+        search: '', 
+      });
     }
 
     onEditItemClick = ({ code, title, details }) => {
       console.log(`Finalizó la edición Titulo: ${title} Detalle: ${details}`);
 
       //this.setState({ items: [ ...this.state.items, { code, title, details }] })
-      const items = this.state.items.filter( item => item.code !== code);
-
+      const itemsDel = this.state.items.filter( item => item.code !== code);
+      const items = [ ...itemsDel, { code, title, details }];
       this.setState({ 
-        items: [ ...items, { code, title, details }],
+        items,
+        itemsSearched: items,
         selectedItem: null,
+        search: '', 
       });
     }  
 
@@ -44,7 +62,11 @@ class UserMain extends Component {
       console.log("Eliminando Item " + code);
       const items = this.state.items.filter( item => item.code !== code);
 
-      this.setState({ items, selectedItem: null });
+      this.setState({ 
+        items, 
+        itemsSearched: applySearch(items, this.state.search), 
+        selectedItem: null 
+      });
     }
 
     onShowItem = code => {
@@ -59,7 +81,7 @@ class UserMain extends Component {
       fetch(url).then(data => data.json()).then(results => {
           const items = results ? transform(results) : null;
 
-          this.setState( { items });
+          this.setState( { items, itemsSearched: items });
           console.log("component Did Mount");
       });
     }
@@ -73,10 +95,22 @@ class UserMain extends Component {
               selectedItem={this.state.selectedItem}
             >
             </AddNewEntry>
+            <SearchText
+                    autoFocus={true}
+                    label='Búsqueda'
+                    value={this.state.search}
+                    onChange={event => this.setState(
+                        {
+                          search: event.target.value,
+                          itemsSearched: applySearch(this.state.items, event.target.value)
+                        }
+                    )}>
+            </SearchText>
+
             {
-              this.state.items ? (          
+              this.state.itemsSearched ? (          
               <MyCardList 
-                items={this.state.items}
+                items={this.state.itemsSearched}
                 onClickEdit={this.onEditItem}
                 onClickDel={this.onDelItem}
                 onClickShow={this.onShowItem}></MyCardList>) : 

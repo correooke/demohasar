@@ -14,6 +14,7 @@ import { URL_BASE } from './../constants/api';
 const BackText = styled.span`
     color: #333;
     font-size: 12px;
+    line-height: 30px;
 `;
 const DataText = styled.span`
     font-size: 20px;
@@ -72,60 +73,6 @@ class ShowUser extends Component {
         return null;
     }
 
-    /*
-      "results": [
-    {
-      "gender": "male",
-      "name": {
-        "title": "mr",
-        "first": "rolf",
-        "last": "hegdal"
-      },
-      "location": {
-        "street": "ljan terrasse 346",
-        "city": "vear",
-        "state": "rogaland",
-        "postcode": "3095",
-        "coordinates": {
-          "latitude": "54.8646",
-          "longitude": "-97.3136"
-        },
-        "timezone": {
-          "offset": "-10:00",
-          "description": "Hawaii"
-        }
-      },
-      "email": "rolf.hegdal@example.com",
-      "login": {
-        "uuid": "c4168eac-84b8-46ea-b735-c9da9bfb97fd",
-        "username": "bluefrog786",
-        "password": "ingrid",
-        "salt": "GtRFz4NE",
-        "md5": "5c581c5748fc8c35bd7f16eac9efbb55",
-        "sha1": "c3feb8887abed9ec1561b9aa2c9f58de21d1d3d9",
-        "sha256": "684c478a98b43f1ef1703b35b8bbf61b27dbc93d52acd515e141e97e04447712"
-      },
-      "dob": {
-        "date": "1975-11-12T06:34:44Z",
-        "age": 42
-      },
-      "registered": {
-        "date": "2015-11-04T22:09:36Z",
-        "age": 2
-      },
-      "phone": "66976498",
-      "cell": "40652479",
-      "id": {
-        "name": "FN",
-        "value": "12117533881"
-      },
-      "picture": {
-        "large": "https://randomuser.me/api/portraits/men/65.jpg",
-        "medium": "https://randomuser.me/api/portraits/med/men/65.jpg",
-        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/65.jpg"
-      },
-      "nat": "NO"
-      */
 
     getAllExtra = (title, extra) => {
         const loc = { 
@@ -133,22 +80,22 @@ class ShowUser extends Component {
             lng: Number(extra.location.coordinates.longitude) };
 
         return (
-            <SGrid>
+            <SGrid fluid>
                 <Row end="xs">
                     <Col>
                         <Link to="/"><BackText>Volver al listado</BackText></Link> 
                     </Col>
                 </Row>
                 <Row style={{ background: "#EEE", borderRadius: 10 }} middle="xs">
+                    <Col md={4}>
+                        <img src={extra.picture.large} alt=""/>
+                    </Col>                
                     <Col md={8}>
                         <h1>{title.toUpperCase()}</h1>
                     </Col>
-                    <Col md={4}>
-                        <img src={extra.picture.large} alt=""/>
-                    </Col>
                 </Row>
                 <Row style={{ paddingTop: 30 }} around="xs">
-                    <Col xs={12}>
+                    <Col xs>
                         <ContactDataTitle>Datos de contacto</ContactDataTitle>
                     </Col>
                 </Row>
