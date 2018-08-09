@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom';
 import ShowUser from './component/ShowUser';
 import UserMain from './component/UserMain';
 
+
 class App extends Component {
   
   render() {
@@ -19,7 +20,7 @@ class App extends Component {
               <ShowUser />
             )} />
             <Route render={() => (
-              <UserMain />
+              <UserMain store={this.props.store} />
             )} />       
           </Switch>
         </div>

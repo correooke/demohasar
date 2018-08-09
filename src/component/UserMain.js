@@ -28,6 +28,36 @@ class UserMain extends Component {
       search: '',       
     };
 
+    constructor(props) {
+      super(props);
+
+      // escuchar los cambios en el store
+      this.props.store.subscribe(() => {
+
+        console.log(this.props.store.getState());
+        this.onSearchComplete(this.props.store.getState().search);
+      });
+    }
+
+    onSearch = text => {
+      const action = {
+        type: "SEARCH",
+        payload: text
+      };
+
+      // ejecutamos una acción contra el store
+      this.props.store.dispatch(action);
+    }
+
+    onSearchComplete = search => {
+      this.setState(
+        {
+          search,
+          itemsSearched: applySearch(this.state.items, search)
+        }
+      );
+    }
+
     onAddItemClick = ({ title, details }) => {
       console.log(`Titulo: ${title} Detalle: ${details}`);
       const code = uuid();
@@ -99,12 +129,7 @@ class UserMain extends Component {
                     autoFocus={true}
                     label='Búsqueda'
                     value={this.state.search}
-                    onChange={event => this.setState(
-                        {
-                          search: event.target.value,
-                          itemsSearched: applySearch(this.state.items, event.target.value)
-                        }
-                    )}>
+                    onChange={event => this.onSearch(event.target.value)}>
             </SearchText>
 
             {
