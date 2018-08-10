@@ -3,7 +3,7 @@ import './App.css';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import ShowUser from './component/ShowUser';
-import UserMain from './component/UserMain';
+import UserMainContainer from './containers/UserMainContainer';
 
 class App extends Component {
   
@@ -19,7 +19,7 @@ class App extends Component {
               <ShowUser />
             )} />
             <Route render={() => (
-              <UserMain />
+              <UserMainContainer />
             )} />       
           </Switch>
         </div>
