@@ -79,6 +79,7 @@ class UserMain extends Component {
       console.log("Ver más " + code);
     }
     
+    // SEARCH_USER
     onSearch = event => {
         this.setState({
           search: event.target.value,
