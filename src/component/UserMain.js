@@ -21,6 +21,7 @@ const applySearch = (items, search) =>
 
 class UserMain extends Component {
 
+    // REDUCER USERS
     state = {
       items,
       itemsSearched: items,
@@ -28,6 +29,7 @@ class UserMain extends Component {
       search: '',       
     };
 
+    // ADD_USER
     onAddItemClick = ({ title, details }) => {
       console.log(`Titulo: ${title} Detalle: ${details}`);
       const code = uuid();
@@ -39,6 +41,7 @@ class UserMain extends Component {
       });
     }
 
+    // EDIT_USER
     onEditItemClick = ({ code, title, details }) => {
       console.log(`Finalizó la edición Titulo: ${title} Detalle: ${details}`);
 
@@ -53,11 +56,13 @@ class UserMain extends Component {
       });
     }  
 
+    // SELECT_USER
     onEditItem = code => {
       console.log("Editando Item " + code);
       this.setState({ selectedItem: this.state.items.find( item => item.code === code) });
     }
 
+    // REMOVE_USER
     onDelItem = code => {
       console.log("Eliminando Item " + code);
       const items = this.state.items.filter( item => item.code !== code);
@@ -74,7 +79,15 @@ class UserMain extends Component {
       console.log("Ver más " + code);
     }
     
+    onSearch = event => {
+        this.setState({
+          search: event.target.value,
+          itemsSearched: applySearch(this.state.items, event.target.value)
+        });
+    }
+
     // cdm
+    // LOAD_USERS
     componentDidMount() {
       const url = URL_BASE;
 
@@ -99,12 +112,7 @@ class UserMain extends Component {
                     autoFocus={true}
                     label='Búsqueda'
                     value={this.state.search}
-                    onChange={event => this.setState(
-                        {
-                          search: event.target.value,
-                          itemsSearched: applySearch(this.state.items, event.target.value)
-                        }
-                    )}>
+                    onChange={this.onSearch}>
             </SearchText>
 
             {
