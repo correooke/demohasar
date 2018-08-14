@@ -6,6 +6,8 @@ import {
     SEARCH_USER,
     LOAD_USERS,
 } from '../constants/actions';
+import { URL_BASE } from './../constants/api';
+import transform from './../services/transform';
 
 export const addUser = ({ title, details }) => ( { type: ADD_USER, payload: { title, details } } );
 
@@ -17,7 +19,11 @@ export const removeUser = code => ( { type: REMOVE_USER, payload: code } );
 
 export const searchUser = searchText => ( { type: SEARCH_USER, payload: searchText } );
 
-export const loadUsers = () => ( { type: LOAD_USERS } );
+export const loadUsers = () => dispatch => (
+    fetch(URL_BASE).then(data => data.json()).then(data => {
+        dispatch({ type: LOAD_USERS, payload: transform(data) }); 
+    }));
+
 
 
 

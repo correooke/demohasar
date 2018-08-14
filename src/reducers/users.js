@@ -177,9 +177,10 @@ const users = (state = initialState, { type, payload }) => {
                 itemsSearched: applySearch(state.items, searchText)
             };
         }        
-        case LOAD_USERS:
-            return { items: initialItems, itemsSearched: initialItems };
-
+        case LOAD_USERS: {
+            const items = payload;
+            return { items, itemsSearched: items };
+        }
         default:
             return state;
     }

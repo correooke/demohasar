@@ -49,23 +49,17 @@ UserMainContainer.propTypes = {
     search: PropTypes.string,
 };
 
-const mapStateToProps = (
-    { users: { items, itemsSearched, selectedItem, search } }) => ({ 
-        items,
-        itemsSearched,
-        selectedItem, 
-        search,
-} );
-
-const mapDispatchToProps = dispatch => ({ 
-    addUser: ({ title, details }) => dispatch(addUser({title, details })), 
-    editUser: ({ code, title, details }) => dispatch(editUser({ code, title, details })),
-    selectUser: code => dispatch(selectUser(code)),
-    removeUser: code => dispatch(removeUser(code)),
-    searchUser: searchText => dispatch(searchUser(searchText)),
-    loadUsers: () => dispatch(loadUsers()),
-});
-
-const HOC = connect(mapStateToProps, mapDispatchToProps);
-
-export default HOC(UserMainContainer);
+export default connect(({ users: { items, itemsSearched, selectedItem, search } }) => ({ 
+    items,
+    itemsSearched,
+    selectedItem, 
+    search,
+}), 
+{
+    addUser, 
+    editUser, 
+    selectUser,
+    removeUser,
+    searchUser,
+    loadUsers,
+})(UserMainContainer);
