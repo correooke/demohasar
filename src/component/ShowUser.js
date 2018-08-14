@@ -8,8 +8,6 @@ import { MdPhone,
     MdMyLocation } from 'react-icons/md';
 import GoogleMapReact from 'google-map-react';
 import styled from 'styled-components'; 
-import transform from '../services/transform';
-import { URL_BASE } from './../constants/api';
 
 const BackText = styled.span`
     color: #333;
@@ -48,31 +46,6 @@ const Sa = styled.a`
 const Pointer = ({ text }) => <div>{text}</div>;
 
 class ShowUser extends Component {
-    
-    state = {};
-
-    componentDidMount() {
-        if (!this.props.user) {
-            const url = `${URL_BASE}?login.uuid=${this.props.match.params.code}`;
-
-            fetch(url).then(data => data.json()).then(
-                results => {
-                    const items = transform(results);
-                    if (items) {
-                        this.setState(items[0]);
-                    }
-                }
-            );
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.user && (nextProps.user.code !== prevState.code))
-            return nextProps.user;
-        
-        return null;
-    }
-
 
     getAllExtra = (title, extra) => {
         const loc = { 
@@ -152,10 +125,11 @@ class ShowUser extends Component {
     
 
     render() {
+        const { extra, title } = this.props.user;
         return (
             <div>
                 {
-                    this.state.extra && this.getAllExtra(this.state.title, this.state.extra)
+                    extra && this.getAllExtra(title, extra)
                 }
 
             </div>
@@ -167,4 +141,4 @@ ShowUser.propTypes = {
     user: PropTypes.object,
 };
 
-export default withRouter(ShowUser);
+export default ShowUser;

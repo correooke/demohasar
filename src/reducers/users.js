@@ -6,6 +6,7 @@ import {
     REMOVE_USER,
     SEARCH_USER,
     LOAD_USERS,
+    LOAD_USER,
 } from '../constants/actions';
 import transform from './../services/transform';
 
@@ -179,8 +180,17 @@ const users = (state = initialState, { type, payload }) => {
         }        
         case LOAD_USERS: {
             const items = payload;
-            return { items, itemsSearched: items };
+            return { ...state,
+                items, 
+                itemsSearched: items 
+            };
         }
+        case LOAD_USER: {
+            const item = payload;
+            return { ...state,
+                currentUser: item,
+            };
+        }        
         default:
             return state;
     }

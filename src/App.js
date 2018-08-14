@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
-import ShowUser from './component/ShowUser';
+import ShowUserContainer from './containers/ShowUserContainer';
 import UserMainContainer from './containers/UserMainContainer';
 
 class App extends Component {
@@ -16,7 +16,7 @@ class App extends Component {
 
           <Switch>
             <Route path="/customers/:code/details" render={({ match }) => (
-              <ShowUser />
+              <ShowUserContainer />
             )} />
             <Route render={() => (
               <UserMainContainer />
