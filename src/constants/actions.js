@@ -16,3 +16,5 @@ export const SEARCH_USER = "SEARCH_USER";
 export const LOAD_USERS = "LOAD_USERS";
 
 export const LOAD_USER = "LOAD_USER";
+
+export const CLEAN_USER = "CLEAN_USER";

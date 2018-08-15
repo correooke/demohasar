@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { MdPhone, 
     MdPhoneAndroid,
     MdContactMail,
     MdMyLocation } from 'react-icons/md';
 import GoogleMapReact from 'google-map-react';
+import Button from '@material-ui/core/Button';
 import styled from 'styled-components'; 
 
 const BackText = styled.span`
@@ -56,7 +57,7 @@ class ShowUser extends Component {
             <SGrid fluid>
                 <Row end="xs">
                     <Col>
-                        <Link to="/"><BackText>Volver al listado</BackText></Link> 
+                        <Button onClick={this.props.onBack}><BackText>Volver al listado</BackText></Button> 
                     </Col>
                 </Row>
                 <Row style={{ background: "#EEE", borderRadius: 10 }} middle="xs">
@@ -139,6 +140,7 @@ class ShowUser extends Component {
 
 ShowUser.propTypes = {
     user: PropTypes.object,
+    onBack: PropTypes.func.isRequired,
 };
 
 export default ShowUser;

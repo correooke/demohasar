@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ShowUser from '../component/ShowUser';
-import { loadUser } from './../actions/index';
+import { loadUser, cleanUser } from './../actions/index';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -11,10 +11,18 @@ class ShowUserContainer extends Component {
         this.props.loadUser(this.props.match.params.code);
     }
     
+    onBack = () => {
+        this.props.history.goBack();
+    }
+
+    componentWillUnmount() {
+        this.props.cleanUser();
+    }
+
     render() {
         return (
             this.props.user  ? 
-                <ShowUser user={this.props.user}></ShowUser> :
+                <ShowUser user={this.props.user} onBack={this.onBack} ></ShowUser> :
                 <div>Loading</div>
         );
     }
@@ -23,7 +31,8 @@ class ShowUserContainer extends Component {
 ShowUserContainer.propTypes = {
     user: PropTypes.object,
     loadUser: PropTypes.func.isRequired,
+    cleanUser: PropTypes.func.isRequired,
 };
 
 export default withRouter(connect(state => ({ user: state.users.currentUser }),
-{ loadUser })(ShowUserContainer));
+{ loadUser, cleanUser })(ShowUserContainer));
