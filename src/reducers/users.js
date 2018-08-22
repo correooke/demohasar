@@ -84,6 +84,7 @@ export const users = handleActions({
         };
     },
     [LOAD_USERS]: (state, { type, payload }) => {
+        debugger;
         const items = payload;
         return { ...state,
             items, 
