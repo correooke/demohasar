@@ -4,6 +4,7 @@ import ShowUser from '../component/ShowUser';
 import { loadUser, cleanUser } from './../actions/index';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { currentUserSelector } from '../selectors';
 
 class ShowUserContainer extends Component {
 
@@ -34,5 +35,5 @@ ShowUserContainer.propTypes = {
     cleanUser: PropTypes.func.isRequired,
 };
 
-export default withRouter(connect(state => ({ user: state.users.currentUser }),
+export default withRouter(connect(state => ({ user: currentUserSelector(state) }),
 { loadUser, cleanUser })(ShowUserContainer));

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { MdPhone, 
     MdPhoneAndroid,

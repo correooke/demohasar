@@ -1,3 +1,4 @@
+import { createAction } from 'redux-actions';
 import {
     ADD_USER,
     EDIT_USER,
@@ -8,8 +9,10 @@ import {
     LOAD_USER,
     CLEAN_USER,
 } from '../constants/actions';
+
 import { URL_BASE } from './../constants/api';
 import transform from './../services/transform';
+import API from './../api/index';
 
 export const addUser = ({ title, details }) => ( { type: ADD_USER, payload: { title, details } } );
 
@@ -26,10 +29,13 @@ export const loadUsers = () => dispatch => (
         dispatch({ type: LOAD_USERS, payload: transform(data) }); 
     }));
 
+export const loadUser = createAction(LOAD_USER, API.LoadUser);
+/*
 export const loadUser = userCode => ({ 
         type: LOAD_USER, 
+       
         payload: fetch(`${URL_BASE}?login.uuid=${userCode}`).then(data => data.json())
-    });
+    });*/ 
 
 export const cleanUser = () => ({
     type: CLEAN_USER
