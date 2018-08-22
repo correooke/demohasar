@@ -85,7 +85,7 @@ export const users = handleActions({
     },
     [LOAD_USERS]: (state, { type, payload }) => {
         debugger;
-        const items = payload;
+        const items = transform(payload);
         return { ...state,
             items, 
             itemsSearched: items 
