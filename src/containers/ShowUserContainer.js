@@ -13,7 +13,7 @@ class ShowUserContainer extends Component {
     }
     
     onBack = () => {
-        this.props.history.goBack();
+        this.props.history.push("/");
     }
 
     componentWillUnmount() {

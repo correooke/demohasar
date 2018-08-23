@@ -9,8 +9,9 @@ import {
     LOAD_USER,
     CLEAN_USER,
 } from '../constants/actions';
-import transform from './../services/transform';
+import { transform, normalize } from './../services/transform';
 import { handleAction, handleActions } from 'redux-actions';
+import keys from 'lodash/keys';
 
 const initialState = {
   items: null,
@@ -21,15 +22,6 @@ const initialState = {
 
 const applySearch = (items, search) => 
 items.filter(item => item.title.toUpperCase().includes(search.toUpperCase()));
-
-export const loadUser = handleAction(LOAD_USER, (state = initialState, { type, payload }) => {
-    const items = transform(payload);
-    const item = items && items[0];
-
-    return { ...state,
-        currentUser: item,
-    };
-}, {});
 
 // (state = initialState, { type, payload })
 export const users = handleActions({
@@ -84,12 +76,22 @@ export const users = handleActions({
         };
     },
     [LOAD_USERS]: (state, { type, payload }) => {
+        const items = normalize(transform(payload));
+        const itemsSearched = keys(items);
         debugger;
-        const items = transform(payload);
         return { ...state,
-            items, 
-            itemsSearched: items 
+            items: { ...state.items, ...items }, 
+            itemsSearched
         }; 
+    },
+    [LOAD_USER]: (state, { type, payload }) => {
+        const items = transform(payload);
+        const item = items && items[0];
+        debugger;
+        return { ...state,
+            currentUser: item.code,
+            items: { ...state.items, [item.code]: item }
+        };        
     },
     [CLEAN_USER]: (state, { type, payload }) => {
         return {

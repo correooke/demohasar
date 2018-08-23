@@ -14,6 +14,9 @@ const SearchText = styled(TextField)`
 
 class UserMain extends Component {
 
+    getItems = () => {
+      return this.props.itemsSearched.map(i => this.props.items[i]);
+    }
 
     onShowItem = code => {
       this.props.history.push(`/customers/${code}/details`);
@@ -39,17 +42,17 @@ class UserMain extends Component {
             {
               this.props.itemsSearched ? (          
               <MyCardList 
-                items={this.props.itemsSearched}
+                items={this.getItems()}
                 onClickEdit={this.props.onSelectItem}
                 onClickDel={this.props.onDelItem}
                 onClickShow={this.onShowItem}></MyCardList>) : 
               (<CircularProgress size={50} />)
 
             } 
-            <Route exact path="/customers/:code/image" render={({ match }) => (
+            <Route path="/customers/:code/image" render={({ match }) => (
               <ShowImage 
                 code={match.params.code} 
-                user={this.props.items && this.props.items.find(user => user.code === match.params.code)} /> 
+                user={this.props.items && this.props.items[match.params.code]} /> 
             )} />                               
           </div>
         );
@@ -65,7 +68,7 @@ UserMain.propTypes = {
   selectedItem: PropTypes.object,
   search: PropTypes.string,
   itemsSearched: PropTypes.array,
-  items: PropTypes.array,
+  items: PropTypes.object,
 };
 
 export default withRouter(UserMain);

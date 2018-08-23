@@ -39,8 +39,8 @@ const ShowImage = ({ code, history, user }) => {
             <Dialog>
                  {
                     user ? (
-                        [<H1Special>Cliente: {user.title}</H1Special>,
-                        <img src={user.extra.picture.large} alt="Imagen del usuario"/>]
+                        [<H1Special key={1}>Cliente: {user.title}</H1Special>,
+                        <img key={2} src={user.extra.picture.large} alt="Imagen del usuario"/>]
                     ) : (
                         <span>No existe el usuario</span>
                     )

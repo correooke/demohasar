@@ -43,7 +43,7 @@ UserMainContainer.propTypes = {
     removeUser: PropTypes.func.isRequired,
     searchUser: PropTypes.func.isRequired,
     loadUsers: PropTypes.func.isRequired,
-    items: PropTypes.array,
+    items: PropTypes.object,
     itemsSearched: PropTypes.array,
     selectedItem: PropTypes.object,
     search: PropTypes.string,
