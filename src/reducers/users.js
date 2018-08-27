@@ -10,8 +10,8 @@ import {
     CLEAN_USER,
 } from '../constants/actions';
 import { transform, normalize } from './../services/transform';
-import { handleAction, handleActions } from 'redux-actions';
-import keys from 'lodash/keys';
+import { handleActions } from 'redux-actions';
+import values from 'lodash/values';
 
 const initialState = {
   items: null,
@@ -20,71 +20,78 @@ const initialState = {
   search: '',       
 };
 
-const applySearch = (items, search) => 
-items.filter(item => item.title.toUpperCase().includes(search.toUpperCase()));
+const getUserCodes = users => users.map(u => u.code);
 
-// (state = initialState, { type, payload })
+const sortUsers = users => users.sort((u1, u2) => u1.title.localeCompare(u2.title));
+
+const applySearch = (items, search) => 
+    items.filter(
+        item => item.title.toUpperCase().includes(
+            search.toUpperCase()));
+
 export const users = handleActions({
-    [ADD_USER]: (state, { type, payload }) => {
+    [ADD_USER]: (state, { payload }) => {
             
         const { title, details } = payload;
         const code = uuid();
-        const items = [ ...state.items, { code, title, details }];
+        const items = { ...state.items, [code]: { code, title, details }};
         return { 
             ...state, 
             items,
-            itemsSearched: items,
+            itemsSearched: getUserCodes(sortUsers(values(items))),
             search: '', 
         };        
     },
-    [EDIT_USER]: (state, { type, payload }) => {
+    [EDIT_USER]: (state, { payload }) => {
         const { code, title, details } = payload;
-        const itemsDel = state.items.filter( item => item.code !== code);
-        const items = [ ...itemsDel, { code, title, details }];
+        const itemsOld = { ...state.items };
+        delete itemsOld[code];
+        const items = { ...itemsOld, [code]: { code, title, details } }
         return {
             ...state, 
             items,
-            itemsSearched: items,
+            itemsSearched: getUserCodes(sortUsers(values(items))),
             selectedItem: null,
             search: '', 
         };
     },
-    [SELECT_USER]: (state, { type, payload }) => {
+    [SELECT_USER]: (state, { payload }) => {
         const code = payload;
         return {
             ...state, 
-            selectedItem: state.items.find( item => item.code === code) 
+            selectedItem: code 
         };
     },
-    [REMOVE_USER]: (state, { type, payload }) => {
+    [REMOVE_USER]: (state, { payload }) => {
         const code = payload;
-
-        const items = state.items.filter( item => item.code !== code);
+        const items = { ...state.items };
+        delete items[code];
         return {
             ...state, 
             items, 
-            itemsSearched: applySearch(items, state.search), 
+            itemsSearched: getUserCodes(applySearch(sortUsers(values(items)), state.search)), 
             selectedItem: null 
           };           
     },
-    [SEARCH_USER]: (state, { type, payload }) =>  {
+    [SEARCH_USER]: (state, { payload }) =>  {
         const searchText = payload;
         return {
             ...state,
             search: searchText,
-            itemsSearched: applySearch(state.items, searchText)
+            itemsSearched: getUserCodes(applySearch(values(state.items), searchText))
         };
     },
-    [LOAD_USERS]: (state, { type, payload }) => {
+    [LOAD_USERS]: (state, { payload }) => {
+        debugger;
         const items = normalize(transform(payload));
-        const itemsSearched = keys(items);
+        const itemsSearched = getUserCodes(sortUsers(values(items)));
         debugger;
         return { ...state,
             items: { ...state.items, ...items }, 
             itemsSearched
         }; 
     },
-    [LOAD_USER]: (state, { type, payload }) => {
+    [LOAD_USER]: (state, { payload }) => {
         const items = transform(payload);
         const item = items && items[0];
         debugger;
@@ -93,7 +100,7 @@ export const users = handleActions({
             items: { ...state.items, [item.code]: item }
         };        
     },
-    [CLEAN_USER]: (state, { type, payload }) => {
+    [CLEAN_USER]: (state) => {
         return {
             ...state, 
             currentUser: null,

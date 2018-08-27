@@ -3,7 +3,7 @@ export const normalize = users => (
   users.reduce((acc, user) => ( { ...acc, [user.code]: user } ), {})
 );
 
-export const transform = results => results.map( user => (
+export const transform = results => results && results.map( user => (
     {
       code: user.login.uuid,
       title: `${user.name.title} ${user.name.first} ${user.name.last}`,

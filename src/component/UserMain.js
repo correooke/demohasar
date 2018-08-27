@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { CircularProgress, TextField } from '@material-ui/core';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import MyCardList from './MyCardList';
@@ -14,16 +14,9 @@ const SearchText = styled(TextField)`
 
 class UserMain extends Component {
 
-    getItems = () => {
-      return this.props.itemsSearched.map(i => this.props.items[i]);
-    }
-
-    onShowItem = code => {
-      this.props.history.push(`/customers/${code}/details`);
-      console.log("Ver más " + code);
-    }
-
     render() {
+      const { onShowItem } = this.props;
+
         return (
         <div>
             <AddNewEntry 
@@ -40,19 +33,19 @@ class UserMain extends Component {
             </SearchText>
 
             {
-              this.props.itemsSearched ? (          
+              this.props.items ? (          
               <MyCardList 
-                items={this.getItems()}
+                items={this.props.items}
                 onClickEdit={this.props.onSelectItem}
                 onClickDel={this.props.onDelItem}
-                onClickShow={this.onShowItem}></MyCardList>) : 
+                onClickShow={onShowItem}></MyCardList>) : 
               (<CircularProgress size={50} />)
 
             } 
             <Route path="/customers/:code/image" render={({ match }) => (
               <ShowImage 
                 code={match.params.code} 
-                user={this.props.items && this.props.items[match.params.code]} /> 
+                user={this.props.items && this.props.items.find(item => item.code === match.params.code)} /> 
             )} />                               
           </div>
         );
@@ -65,10 +58,10 @@ UserMain.propTypes = {
   onSelectItem: PropTypes.func.isRequired,
   onDelItem: PropTypes.func.isRequired,
   onSearch: PropTypes.func.isRequired,
+  onShowItem: PropTypes.func.isRequired,
   selectedItem: PropTypes.object,
   search: PropTypes.string,
-  itemsSearched: PropTypes.array,
-  items: PropTypes.object,
+  items: PropTypes.array,
 };
 
-export default withRouter(UserMain);
+export default UserMain;
