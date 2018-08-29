@@ -4,6 +4,7 @@ import { AppBar, Toolbar } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import ShowUserContainer from './containers/ShowUserContainer';
 import UserMainContainer from './containers/UserMainContainer';
+import FilterUserContainer from './containers/FilterUserContainer';
 
 class App extends Component {
   
@@ -19,7 +20,7 @@ class App extends Component {
               <ShowUserContainer />
             )} />
             <Route render={() => (
-              <UserMainContainer />
+              <UserMainContainer filter={<FilterUserContainer />} />
             )} />       
           </Switch>
         </div>

@@ -11,7 +11,9 @@ import {
     loadUsers,  
 } from '../actions';
 import UserMain from '../component/UserMain';
-import { usersSearchedSelector, selectedItemSelector, searchUserSelector } from '../selectors';
+import { usersSearchedSelector, 
+    selectedItemSelector, 
+ } from '../selectors';
 
 class UserMainContainer extends Component {
 
@@ -25,20 +27,22 @@ class UserMainContainer extends Component {
     }
     
     render() {
+        const { filter } = this.props;
         return (
-            <div>
+            <React.Fragment>
+                
+                {filter}
+
                 <UserMain 
                     onAddItemClick={this.props.addUser}
                     onEditItemClick={this.props.editUser}
                     onSelectItem={this.props.selectUser}
                     onDelItem={this.props.removeUser}
-                    onSearch={this.props.searchUser}
                     onShowItem={this.onShowItem}
                     selectedItem={this.props.selectedItem}
-                    search={this.props.search}
                     items={this.props.itemsSearched}
-                ></UserMain>
-            </div>
+                ></UserMain> 
+            </React.Fragment>
         );
     }
 }
@@ -52,13 +56,12 @@ UserMainContainer.propTypes = {
     loadUsers: PropTypes.func.isRequired,
     itemsSearched: PropTypes.array,
     selectedItem: PropTypes.object,
-    search: PropTypes.string,
+    filter: PropTypes.element.isRequired,
 };
 
 export default withRouter(connect(state => ({ 
     itemsSearched: usersSearchedSelector(state),
     selectedItem: selectedItemSelector(state), 
-    search: searchUserSelector(state),
 }), 
 {
     addUser, 

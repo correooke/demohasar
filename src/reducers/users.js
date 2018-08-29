@@ -8,6 +8,7 @@ import {
     LOAD_USERS,
     LOAD_USER,
     CLEAN_USER,
+    SELECT_SORT_CRITERIA,
 } from '../constants/actions';
 import { transform, normalize } from './../services/transform';
 import { handleActions } from 'redux-actions';
@@ -22,7 +23,9 @@ const initialState = {
 
 const getUserCodes = users => users.map(u => u.code);
 
-const sortUsers = users => users.sort((u1, u2) => u1.title.localeCompare(u2.title));
+const sortUsers = (users, criteria = "name") => (
+    users.sort((u1, u2) => u1.details[criteria].localeCompare(u2.details[criteria]))
+);
 
 const applySearch = (items, search) => 
     items.filter(
@@ -38,7 +41,7 @@ export const users = handleActions({
         return { 
             ...state, 
             items,
-            itemsSearched: getUserCodes(sortUsers(values(items))),
+            itemsSearched: getUserCodes(sortUsers(values(items), state.sortCriteria)),
             search: '', 
         };        
     },
@@ -50,7 +53,7 @@ export const users = handleActions({
         return {
             ...state, 
             items,
-            itemsSearched: getUserCodes(sortUsers(values(items))),
+            itemsSearched: getUserCodes(sortUsers(values(items), state.sortCriteria)),
             selectedItem: null,
             search: '', 
         };
@@ -69,7 +72,7 @@ export const users = handleActions({
         return {
             ...state, 
             items, 
-            itemsSearched: getUserCodes(applySearch(sortUsers(values(items)), state.search)), 
+            itemsSearched: getUserCodes(applySearch(sortUsers(values(items), state.sortCriteria), state.search)), 
             selectedItem: null 
           };           
     },
@@ -82,10 +85,8 @@ export const users = handleActions({
         };
     },
     [LOAD_USERS]: (state, { payload }) => {
-        debugger;
         const items = normalize(transform(payload));
-        const itemsSearched = getUserCodes(sortUsers(values(items)));
-        debugger;
+        const itemsSearched = getUserCodes(sortUsers(values(items), state.sortCriteria));
         return { ...state,
             items: { ...state.items, ...items }, 
             itemsSearched
@@ -94,7 +95,6 @@ export const users = handleActions({
     [LOAD_USER]: (state, { payload }) => {
         const items = transform(payload);
         const item = items && items[0];
-        debugger;
         return { ...state,
             currentUser: item.code,
             items: { ...state.items, [item.code]: item }
@@ -105,6 +105,13 @@ export const users = handleActions({
             ...state, 
             currentUser: null,
         };
+    },
+    [SELECT_SORT_CRITERIA]: (state, { payload }) => {   
+        return {
+            ...state, 
+            sortCriteria: payload,
+            itemsSearched: getUserCodes(sortUsers(applySearch(values(state.items), state.search), payload)),
+        }
     },
 }, initialState);
    

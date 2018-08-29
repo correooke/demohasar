@@ -14,3 +14,5 @@ export const selectedItemSelector = createSelector(usersSelector, users => users
 
 export const searchUserSelector = createSelector(usersSelector, users => users.search);
 
+export const sortCriteriaSelector = createSelector(usersSelector, users => users.sortCriteria);
+

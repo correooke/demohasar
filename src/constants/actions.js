@@ -18,3 +18,5 @@ export const LOAD_USERS = "LOAD_USERS";
 export const LOAD_USER = "LOAD_USER";
 
 export const CLEAN_USER = "CLEAN_USER";
+
+export const SELECT_SORT_CRITERIA = "SELECT_SORT_CRITERIA";

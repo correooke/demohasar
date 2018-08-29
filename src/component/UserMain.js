@@ -1,37 +1,28 @@
 import React, { Component } from 'react';
-import { CircularProgress, TextField } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import { Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import MyCardList from './MyCardList';
-import AddNewEntry from './AddNewEntry';
 import ShowImage from './ShowImage';
-
-const SearchText = styled(TextField)`
-  width: 50vw;
-  background: white;
-`;
+import AddNewEntry from './../component/AddNewEntry';
 
 class UserMain extends Component {
 
     render() {
-      const { onShowItem } = this.props;
+        const { onShowItem, 
+          onAddItemClick, 
+          onEditItemClick, 
+          selectedItem,
+        } = this.props;
 
         return (
         <div>
             <AddNewEntry 
-              onAddItem={this.props.onAddItemClick}
-              onEditItem={this.props.onEditItemClick}
-              selectedItem={this.props.selectedItem}
+                onAddItem={onAddItemClick}
+                onEditItem={onEditItemClick}
+                selectedItem={selectedItem}
             >
-            </AddNewEntry>
-            <SearchText
-                    autoFocus={true}
-                    label='Búsqueda'
-                    value={this.props.search ? this.props.search : ''}
-                    onChange={event => this.props.onSearch(event.target.value)}>
-            </SearchText>
-
+            </AddNewEntry>          
             {
               this.props.items ? (          
               <MyCardList 
@@ -55,12 +46,10 @@ class UserMain extends Component {
 UserMain.propTypes = {
   onAddItemClick: PropTypes.func.isRequired,
   onEditItemClick: PropTypes.func.isRequired,
+  selectedItem: PropTypes.object,  
   onSelectItem: PropTypes.func.isRequired,
   onDelItem: PropTypes.func.isRequired,
-  onSearch: PropTypes.func.isRequired,
   onShowItem: PropTypes.func.isRequired,
-  selectedItem: PropTypes.object,
-  search: PropTypes.string,
   items: PropTypes.array,
 };
 
