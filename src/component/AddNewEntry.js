@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {TextField} from '@material-ui/core';
 import {Button} from '@material-ui/core';
+import { FormattedMessage } from 'react-intl';
 import EntryDetails from './EntryDetails';
 
 const initialState = {
@@ -31,20 +32,7 @@ class AddNewEntry extends Component {
         });
         console.log(`onChangeItem: ${JSON.stringify(itemValue)}`);
     }
-/*
-    // cwrp
-    componentWillReceiveProps(nextProps) {
-        console.log(JSON.stringify(nextProps.selectedItem));
-        if (nextProps.selectedItem) {
-            this.setState({
-                ...nextProps.selectedItem,
-                editing: true
-            });
-        } else {
-            this.setState(initialState);
-        }
-    }
-*/
+
     static getDerivedStateFromProps(nextProps, prevState) {
         //console.log(JSON.stringify(nextProps.selectedItem));
         if (nextProps.selectedItem && nextProps.selectedItem.code !== prevState.code) {
@@ -72,7 +60,7 @@ class AddNewEntry extends Component {
 }
                 <TextField
                     autoFocus={true}
-                    label='Titulo'
+                    label={<FormattedMessage id='GENERIC.TITLE' />}
                     value={this.state.title}
                     onChange={event => this.setState({title: event.target.value})}></TextField>
                 <EntryDetails details={this.state.details} onChange={this.onChangeItem}></EntryDetails>
@@ -83,8 +71,8 @@ class AddNewEntry extends Component {
                         : onAddItem(this.state)
                 }}>
                     {this.state.editing
-                        ? "Editar"
-                        : "Agregar"}
+                        ? <FormattedMessage id="GENERIC.EDIT" />
+                        : <FormattedMessage id="GENERIC.ADD" />}
                 </Button>
             </div>
         );

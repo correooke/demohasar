@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
+import { FormattedMessage, FormattedRelative } from 'react-intl';
 import ShowUserContainer from './containers/ShowUserContainer';
 import UserMainContainer from './containers/UserMainContainer';
 import FilterUserContainer from './containers/FilterUserContainer';
@@ -12,8 +13,13 @@ class App extends Component {
     return (
         <div className="App">
           <AppBar position="static" >
-            <Toolbar>Aplicacion de Estudio</Toolbar>
+            <Toolbar>
+              <h1><FormattedMessage id="APP.TITLE" /></h1>
+            </Toolbar>
           </AppBar>
+          <span className="active-indicator">
+            <FormattedRelative value={Date.now()}/>
+          </span>
 
           <Switch>
             <Route path="/customers/:code/details" render={({ match }) => (

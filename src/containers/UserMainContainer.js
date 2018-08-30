@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { injectIntl,
+} from 'react-intl';
 import { 
     addUser, 
     editUser,
@@ -14,7 +16,7 @@ import UserMain from '../component/UserMain';
 import { usersSearchedSelector, 
     selectedItemSelector, 
  } from '../selectors';
-
+ 
 class UserMainContainer extends Component {
 
     onShowItem = code => {
@@ -24,13 +26,19 @@ class UserMainContainer extends Component {
 
     componentDidMount() {
         this.props.loadUsers();
+        const { messages } = this.props.intl;
+        console.log(messages.test);
     }
     
     render() {
         const { filter } = this.props;
+        const msg = `{cantComentarios, plural, 
+            one {# comentario} 
+            other {# comentarios}
+        }`;
         return (
             <React.Fragment>
-                
+
                 {filter}
 
                 <UserMain 
@@ -59,7 +67,7 @@ UserMainContainer.propTypes = {
     filter: PropTypes.element.isRequired,
 };
 
-export default withRouter(connect(state => ({ 
+export default injectIntl(withRouter(connect(state => ({ 
     itemsSearched: usersSearchedSelector(state),
     selectedItem: selectedItemSelector(state), 
 }), 
@@ -70,4 +78,4 @@ export default withRouter(connect(state => ({
     removeUser,
     searchUser,
     loadUsers,
-})(UserMainContainer));
+})(UserMainContainer)));

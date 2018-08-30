@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { TextField } from '@material-ui/core';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import OrderCriteria from './../component/OrderCriteria';
 import { searchUserSelector,
     sortCriteriaSelector } from './../selectors/index';
@@ -36,7 +37,7 @@ class FilterUserContainer extends Component {
                     onSelectCriteria={this.onSelectCriteria}></OrderCriteria>
                 <SearchText
                         autoFocus={true}
-                        label='Búsqueda'
+                        label={<FormattedMessage id="GENERIC.SEARCH" />}
                         value={search ? search : ''}
                         onChange={event => searchUser(event.target.value)}>
                 </SearchText> 
