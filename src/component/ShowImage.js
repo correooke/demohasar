@@ -1,7 +1,8 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { User } from './../types/User';
 
 const FullCover = styled.div`
     width: 100vw;
@@ -29,7 +30,12 @@ const H1Special = styled.h1`
     text-transform: uppercase;
 `;
 
-const ShowImage = ({ code, history, user }) => {
+type Props = {
+    history: any, 
+    user: User, 
+}
+
+const ShowImage = ({ history, user }: Props) => {
     
     const onClickGoBack = () => {
         history.goBack();
@@ -48,11 +54,6 @@ const ShowImage = ({ code, history, user }) => {
             </Dialog>
         </FullCover>
     );
-};
-
-ShowImage.propTypes = {
-    code: PropTypes.string.isRequired,
-    history: PropTypes.object.isRequired,
 };
 
 export default withRouter(ShowImage);

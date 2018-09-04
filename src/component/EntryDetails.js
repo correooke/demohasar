@@ -1,24 +1,14 @@
+// @flow
 import React from 'react';
 import { entries } from 'lodash';
 import { TextField } from '@material-ui/core';
-/*
-{
-    source: '65.jpg',
-    name: "Juan", 
-    last: "Barrsio",
-    email: "r.com",
+
+type Props = {
+    details: string,
+    onChange: (value: string) => void,
 }
-// entries
-   [
-       [ "source", "'65.jpg'" ],
-       [ "name", "Juan" ], 
-       [ "last", "Barrio" ], 
-       [ "email", "r.com" ], 
-   ]
-*/
 
-const EntryDetails = ({ details, onChange }) => {
-
+const EntryDetails = ({ details, onChange }: Props) => {
     const mapDetail = item => ( /* item = [ "source", "'65.jpg'" ] */ 
         <TextField 
             key={item[0]}

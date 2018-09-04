@@ -1,32 +1,28 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import MyCardItem from './MyCardItem';
+import { User, UserActions } from './../types/User';
 
-const MyCardList = ({ items, onClickEdit, onClickDel, onClickShow }) => {
+type Props = {
+    items: Array<User>,
+    actions: UserActions,   
+};
+
+const MyCardList = ({ items, actions }: Props) => {
     
     return (
         <div className="main-list">
           {
-            items.map(({ code, title, details }) => (
-              <MyCardItem 
-                key={code} 
-                code={code} 
-                title={title} 
-                details={details}
-                onClickEdit={onClickEdit}
-                onClickDel={onClickDel}
-                onClickShow={onClickShow}></MyCardItem>
+            items.map(user => (
+                <MyCardItem 
+                    key={user.code} 
+                    user={user}
+                    actions={actions}>
+                </MyCardItem>
             ))
           }
         </div>
     );
-};
-
-MyCardList.propTypes = {
-    items: PropTypes.array.isRequired,
-    onClickEdit: PropTypes.func.isRequired,
-    onClickDel: PropTypes.func.isRequired,
-    onClickShow: PropTypes.func.isRequired,    
 };
 
 export default MyCardList;

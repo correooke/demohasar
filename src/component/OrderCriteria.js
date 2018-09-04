@@ -1,22 +1,22 @@
+// @flow
 import React from 'react';
-import PropTypes from 'prop-types';
 import OrderCriteriaItem from './OrderCriteriaItem';
 
-const OrderCriteria = ({ items, onSelectCriteria, sortCriteria }) => {
+type Props = {
+    items: Array<any>, 
+    onSelectCriteria: (value: string) => void, 
+    sortCriteria: string,
+}
+
+const OrderCriteria = ({ items, onSelectCriteria, sortCriteria }: Props) => {
     return (
         <select value={sortCriteria} onChange={({target}) => onSelectCriteria(target.value)} name="" id="">
             { 
                 items.map(i => (
-                    <OrderCriteriaItem value={i.id} key={i.id}>{i.value}</OrderCriteriaItem>))
+                    <OrderCriteriaItem key={i.id} value={i.id}>{i.value}</OrderCriteriaItem>))
             }
         </select> 
     );
-};
-
-OrderCriteria.propTypes = {
-    items: PropTypes.array.isRequired,
-    onSelectCriteria: PropTypes.func.isRequired,
-    sortCriteria: PropTypes.string,
 };
 
 export default OrderCriteria;

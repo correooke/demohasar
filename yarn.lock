@@ -2909,6 +2909,10 @@ flexboxgrid2@^7.2.0:
   dependencies:
     normalize.css "^7.0.0"
 
+flow-bin@^0.79.1:
+  version "0.79.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.79.1.tgz#01c9f427baa6556753fa878c192d42e1ecb764b6"
+
 flux-standard-action@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-2.0.3.tgz#a73a6c4b25ea19d7051afe093ec108ff33dd8935"

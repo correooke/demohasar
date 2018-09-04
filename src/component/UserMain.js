@@ -1,12 +1,22 @@
+// @flow
 import React, { Component } from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import MyCardList from './MyCardList';
 import ShowImage from './ShowImage';
 import AddNewEntry from './../component/AddNewEntry';
+import { User } from '../types/User';
 
-class UserMain extends Component {
+type Props = {
+  onAddItemClick: (item: mixed) => void,
+  onEditItemClick: (item: mixed) => void,
+  selectedItem: string,  
+  onSelectItem: (item: string) => void,
+  onDelItem: (item: string) => void,
+  onShowItem: (item: string) => void,
+  items: Array<User>, 
+}
+class UserMain extends Component<Props> {
 
     render() {
         const { onShowItem, 
@@ -14,6 +24,12 @@ class UserMain extends Component {
           onEditItemClick, 
           selectedItem,
         } = this.props;
+
+        const actions = {
+          onClickEdit: this.props.onSelectItem,
+          onClickDel: this.props.onDelItem,
+          onClickShow: onShowItem,
+        };
 
         return (
         <div>
@@ -27,9 +43,8 @@ class UserMain extends Component {
               this.props.items ? (          
               <MyCardList 
                 items={this.props.items}
-                onClickEdit={this.props.onSelectItem}
-                onClickDel={this.props.onDelItem}
-                onClickShow={onShowItem}></MyCardList>) : 
+                actions={actions}
+              ></MyCardList>) : 
               (<CircularProgress size={50} />)
 
             } 
@@ -43,14 +58,6 @@ class UserMain extends Component {
     }
 }
 
-UserMain.propTypes = {
-  onAddItemClick: PropTypes.func.isRequired,
-  onEditItemClick: PropTypes.func.isRequired,
-  selectedItem: PropTypes.object,  
-  onSelectItem: PropTypes.func.isRequired,
-  onDelItem: PropTypes.func.isRequired,
-  onShowItem: PropTypes.func.isRequired,
-  items: PropTypes.array,
-};
+
 
 export default UserMain;

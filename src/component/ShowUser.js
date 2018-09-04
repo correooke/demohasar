@@ -1,10 +1,11 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { MdPhone, 
     MdPhoneAndroid,
     MdContactMail,
     MdMyLocation } from 'react-icons/md';
+import {User} from './../types/User';
 import GoogleMapReact from 'google-map-react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components'; 
@@ -45,9 +46,14 @@ const Sa = styled.a`
 
 const Pointer = ({ text }) => <div>{text}</div>;
 
-class ShowUser extends Component {
+type Props = {
+    user: User,
+    onBack: () => void,
+}
 
-    getAllExtra = (title, extra) => {
+class ShowUser extends Component<Props> {
+
+    getAllExtra = (title: string, extra: any) => {
         const loc = { 
             lat: Number(extra.location.coordinates.latitude), 
             lng: Number(extra.location.coordinates.longitude) };
@@ -126,6 +132,7 @@ class ShowUser extends Component {
 
     render() {
         const { extra, title } = this.props.user;
+        
         return (
             <div>
                 {
@@ -136,10 +143,5 @@ class ShowUser extends Component {
         );
     }
 }
-
-ShowUser.propTypes = {
-    user: PropTypes.object,
-    onBack: PropTypes.func.isRequired,
-};
 
 export default ShowUser;
