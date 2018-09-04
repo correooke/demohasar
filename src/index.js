@@ -15,12 +15,13 @@ addLocaleData(es);
 
 
 ReactDOM.render((
-    <IntlProvider locale={'es'} messages={esAR}>
-        <Provider store={store}>
-            <Router>
+    <Provider store={store}>
+        <Router>
+            <IntlProvider locale={'es'} messages={esAR}>
                 <App />
-            </Router>
-        </Provider>
-    </IntlProvider>   )
+            </IntlProvider>
+        </Router>
+    </Provider>
+       )
     , document.getElementById('root'));
 registerServiceWorker();

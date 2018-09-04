@@ -13,7 +13,9 @@ const OrderCriteria = ({ items, onSelectCriteria, sortCriteria }: Props) => {
         <select value={sortCriteria} onChange={({target}) => onSelectCriteria(target.value)} name="" id="">
             { 
                 items.map(i => (
-                    <OrderCriteriaItem key={i.id} value={i.id}>{i.value}</OrderCriteriaItem>))
+                    <OrderCriteriaItem value={i.id} key={i.id}>
+                        {i.value}
+                    </OrderCriteriaItem>))
             }
         </select> 
     );

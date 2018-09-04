@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { AppBar, Toolbar, Button } from '@material-ui/core';
 import { Route, Switch } from 'react-router-dom';
 import { FormattedMessage, FormattedRelative } from 'react-intl';
 import ShowUserContainer from './containers/ShowUserContainer';
@@ -20,7 +20,14 @@ class App extends Component {
           <span className="active-indicator">
             <FormattedRelative value={Date.now()}/>
           </span>
-
+          <Button onClick={() => {
+            import("./services/dynamic").then(dynamic => {
+              console.log(dynamic.default.porDos(1));
+            }); 
+          }}>
+            
+            - Carga Dinámica
+          </Button>
           <Switch>
             <Route path="/customers/:code/details" render={({ match }) => (
               <ShowUserContainer />

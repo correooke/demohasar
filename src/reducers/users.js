@@ -84,21 +84,25 @@ export const users = handleActions({
             itemsSearched: getUserCodes(applySearch(values(state.items), searchText))
         };
     },
-    [LOAD_USERS]: (state, { payload }) => {
-        const items = normalize(transform(payload));
-        const itemsSearched = getUserCodes(sortUsers(values(items), state.sortCriteria));
-        return { ...state,
-            items: { ...state.items, ...items }, 
-            itemsSearched
-        }; 
+    [LOAD_USERS]: (state, { error, payload }) => {
+        if (!error) {
+            const items = normalize(transform(payload));
+            const itemsSearched = getUserCodes(sortUsers(values(items), state.sortCriteria));
+            return { ...state,
+                items: { ...state.items, ...items }, 
+                itemsSearched
+            }; 
+        }
     },
-    [LOAD_USER]: (state, { payload }) => {
-        const items = transform(payload);
-        const item = items && items[0];
-        return { ...state,
-            currentUser: item.code,
-            items: { ...state.items, [item.code]: item }
-        };        
+    [LOAD_USER]: (state, { error, payload }) => {
+        if (!error) {
+            const items = transform(payload);
+            const item = items && items[0];
+            return { ...state,
+                currentUser: item.code,
+                items: { ...state.items, [item.code]: item }
+            };        
+        }
     },
     [CLEAN_USER]: (state) => {
         return {

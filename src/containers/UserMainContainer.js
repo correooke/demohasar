@@ -41,7 +41,7 @@ class UserMainContainer extends React.Component<Props> {
     componentDidMount() {
         this.props.loadUsers();
         const { messages } = this.props.intl;
-        console.log(messages.test);
+        console.log(messages['APP.TITLE']);
     }
     
     render() {
