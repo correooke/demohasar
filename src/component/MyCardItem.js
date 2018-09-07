@@ -21,7 +21,7 @@ const MyCardItem = ({
         <Card raised={true} elevation={5}>
             <div className="myCardItem">
                 <div className="myCardItemBlock">
-                    <PersonalAvatar code={code} source={source} ></PersonalAvatar>
+                    <PersonalAvatar code={code} source={source}></PersonalAvatar>
                 </div>
                 <div className="myCardItemBlock">
                     <CardHeader title={title}></CardHeader>

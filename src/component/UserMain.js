@@ -10,7 +10,7 @@ import { User } from '../types/User';
 type Props = {
   onAddItemClick: (item: mixed) => void,
   onEditItemClick: (item: mixed) => void,
-  selectedItem: string,  
+  selectedItem: {code: string},  
   onSelectItem: (item: string) => void,
   onDelItem: (item: string) => void,
   onShowItem: (item: string) => void,

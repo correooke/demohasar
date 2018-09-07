@@ -5,7 +5,7 @@ import { MdPhone,
     MdPhoneAndroid,
     MdContactMail,
     MdMyLocation } from 'react-icons/md';
-import {User} from './../types/User';
+import {User, UserExtra} from './../types/User';
 import GoogleMapReact from 'google-map-react';
 import Button from '@material-ui/core/Button';
 import styled from 'styled-components'; 
@@ -44,16 +44,16 @@ const Sa = styled.a`
     text-decoration: none;
 `;
 
-const Pointer = ({ text }) => <div>{text}</div>;
+const Pointer = ({ text }: { text: string }) => <div>{text}</div>;
 
 type Props = {
     user: User,
     onBack: () => void,
 }
 
-class ShowUser extends Component<Props> {
+class ShowUser extends Component<Props, void> {
 
-    getAllExtra = (title: string, extra: any) => {
+    getAllExtra = (title: string, extra: UserExtra) => {
         const loc = { 
             lat: Number(extra.location.coordinates.latitude), 
             lng: Number(extra.location.coordinates.longitude) };

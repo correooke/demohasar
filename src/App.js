@@ -17,6 +17,11 @@ class App extends Component {
               <h1><FormattedMessage id="APP.TITLE" /></h1>
             </Toolbar>
           </AppBar>
+          <FormattedMessage
+            id={'GENERIC.WELCOME'}
+            values={{ name: 'Marcelo', unreadCount: 2 }}>
+
+          </FormattedMessage>
           <span className="active-indicator">
             <FormattedRelative value={Date.now()}/>
           </span>

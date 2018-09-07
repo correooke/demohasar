@@ -10,17 +10,22 @@ import { IntlProvider, addLocaleData } from 'react-intl';
 import store from './store';
 import es from 'react-intl/locale-data/es';
 import esAR from './languaje/es-AR';
+import enUS from './languaje/en-US';
+
+const languages = {
+    esAR, 
+    enUS,
+};
 
 addLocaleData(es);
 
-
 ReactDOM.render((
-    <Provider store={store}>
-        <Router>
-            <IntlProvider locale={'es'} messages={esAR}>
+    <Provider store = {store}>
+        <IntlProvider locale={'en'} messages={languages.enUS}>
+            <Router>
                 <App />
-            </IntlProvider>
-        </Router>
+            </Router>
+        </IntlProvider>
     </Provider>
        )
     , document.getElementById('root'));

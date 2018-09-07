@@ -2,13 +2,19 @@
 import React from 'react';
 import OrderCriteriaItem from './OrderCriteriaItem';
 
+type IdValue = {
+    id: string,
+    value: string, 
+};
+
 type Props = {
-    items: Array<any>, 
+    items: Array<IdValue>, 
     onSelectCriteria: (value: string) => void, 
     sortCriteria: string,
-}
+};
 
 const OrderCriteria = ({ items, onSelectCriteria, sortCriteria }: Props) => {
+
     return (
         <select value={sortCriteria} onChange={({target}) => onSelectCriteria(target.value)} name="" id="">
             { 

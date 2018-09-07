@@ -25,7 +25,7 @@ type Props = {
     removeUser: (userCode: string) => void,
     searchUser: (text: string) => void,
     loadUsers: () => void,
-    selectedItem: string,
+    selectedItem: {code: string},
     itemsSearched: Array<User>,
     filter: React.Node,
     history: any,

@@ -2,10 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-type Props = {
+type Props = {|
     source: string,
     code: string, 
-}
+|};
+
 const PersonalAvatar = ({ code, source }: Props) => {
     return (
         <div>

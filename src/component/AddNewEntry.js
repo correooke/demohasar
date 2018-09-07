@@ -1,11 +1,24 @@
-// rccp
-
+// @flow
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {TextField} from '@material-ui/core';
 import {Button} from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import EntryDetails from './EntryDetails';
+import { onChangeItemType, UserDetails } from './../types/User';
+
+
+type State = {
+    code?: string,
+    editing: boolean,
+    title: string, 
+    details: UserDetails,
+}
+
+type Props = {
+    selectedItem: {code: string},
+    onAddItem: (data: State) => void,
+    onEditItem: (data: State) => void,  
+};
 
 const initialState = {
     title: '',
@@ -18,11 +31,11 @@ const initialState = {
     editing: false
 };
 
-class AddNewEntry extends Component {
+class AddNewEntry extends Component<Props, State> {
 
     state = initialState;
 
-    onChangeItem = itemValue => {
+    onChangeItem = (itemValue: onChangeItemType) => {
         debugger;
         this.setState({
             details: {
@@ -33,7 +46,7 @@ class AddNewEntry extends Component {
         console.log(`onChangeItem: ${JSON.stringify(itemValue)}`);
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(nextProps: Props, prevState: State) {
         //console.log(JSON.stringify(nextProps.selectedItem));
         if (nextProps.selectedItem && nextProps.selectedItem.code !== prevState.code) {
             return {
@@ -54,10 +67,11 @@ class AddNewEntry extends Component {
 
         return (
             <div className='newEntryStyle'>
-                {this.state.editing
+                {
+                    this.state.editing
                     ? <div>Editando</div>
                     : <div>Creando nuevo</div>
-}
+                }
                 <TextField
                     autoFocus={true}
                     label={<FormattedMessage id='GENERIC.TITLE' />}
@@ -78,11 +92,5 @@ class AddNewEntry extends Component {
         );
     }
 }
-
-AddNewEntry.propTypes = {
-    onAddItem: PropTypes.func.isRequired,
-    onEditItem: PropTypes.func.isRequired,
-    selectedItem: PropTypes.object
-};
 
 export default AddNewEntry;

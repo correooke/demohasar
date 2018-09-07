@@ -2,10 +2,12 @@
 import React from 'react';
 import { entries } from 'lodash';
 import { TextField } from '@material-ui/core';
+import { onChangeItemType, UserDetails } from '../types/User';
+
 
 type Props = {
-    details: string,
-    onChange: (value: string) => void,
+    details: UserDetails,
+    onChange: (value: onChangeItemType) => void,
 }
 
 const EntryDetails = ({ details, onChange }: Props) => {
